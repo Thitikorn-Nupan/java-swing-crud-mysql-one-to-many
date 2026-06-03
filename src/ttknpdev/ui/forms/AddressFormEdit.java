@@ -1,12 +1,10 @@
 package ttknpdev.ui.forms;
 
 import ttknpdev.entities.Address;
-import ttknpdev.entities.Employee;
-import ttknpdev.log.MyLog;
+import ttknpdev.log.CustomLog4j;
 import ttknpdev.repositories.AddressRepository;
 import ttknpdev.services.AddressService;
-import ttknpdev.ui.frame.MyFrame;
-import ttknpdev.ui.tables.AddressesTable;
+import ttknpdev.ui.frame.CustomFrame;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -114,18 +112,18 @@ public class AddressFormEdit implements ActionListener {
     private JButton buttonUpdate;
 
     //
-    private MyFrame frame;
-    private MyLog myLog;
+    private CustomFrame frame;
+    private CustomLog4j customLog4j;
     private AddressesModel addressesModel;
     private AddressRepository<Address> addressRepository;
 
     public AddressFormEdit() {
-        frame = new MyFrame("Address Form Edit");
+        frame = new CustomFrame("Address Form Edit");
         frame.setVisible(true);
         frame.setSize(695, 735);
         frame.setContentPane(panelAddressFormEdit);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        myLog = new MyLog(AddressFormEdit.class);
+        customLog4j = new CustomLog4j(AddressFormEdit.class);
         setDefaultTable();
         setEnabledFalse();
         addressRepository = new AddressService();
@@ -234,7 +232,7 @@ public class AddressFormEdit implements ActionListener {
                 newImg = image.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 icon = new ImageIcon(newImg);
                 JOptionPane.showMessageDialog(frame, "failed", "message", JOptionPane.INFORMATION_MESSAGE, icon);
-                myLog.log4j.info("failed to update");
+                customLog4j.log4j.info("failed to update");
 
             }
         }

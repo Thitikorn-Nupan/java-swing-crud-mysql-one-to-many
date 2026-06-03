@@ -1,10 +1,10 @@
 package ttknpdev.ui.forms;
 
 import ttknpdev.entities.Address;
-import ttknpdev.log.MyLog;
+import ttknpdev.log.CustomLog4j;
 import ttknpdev.repositories.AddressRepository;
 import ttknpdev.services.AddressService;
-import ttknpdev.ui.frame.MyFrame;
+import ttknpdev.ui.frame.CustomFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,14 +26,14 @@ public class AddressFormCreate implements ActionListener {
     private JButton buttonCreate;
     private JPanel panelAddressCreate;
     // my attributes on below
-    private MyFrame frame;
-    private MyLog myLog;
+    private CustomFrame frame;
+    private CustomLog4j customLog4j;
     private AddressRepository<Address> addressRepository;
     private String eid;
 
     public AddressFormCreate(String eid) {
-        myLog = new MyLog(AddressFormCreate.class);
-        frame = new MyFrame("Address Form");
+        customLog4j = new CustomLog4j(AddressFormCreate.class);
+        frame = new CustomFrame("Address Form");
         frame.setVisible(true);
         frame.setSize(695, 445);
         frame.setContentPane(panelAddressCreate);

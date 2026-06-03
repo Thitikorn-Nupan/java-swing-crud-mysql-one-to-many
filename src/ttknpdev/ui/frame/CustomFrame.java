@@ -3,8 +3,8 @@ package ttknpdev.ui.frame;
 import javax.swing.*;
 import java.awt.*;
 
-public class MyFrame extends JFrame {
-    public MyFrame(String title) throws HeadlessException {
+public class CustomFrame extends JFrame {
+    public CustomFrame(String title) throws HeadlessException {
         super(title);
         setLocation(250, 285); // location frame when created
         setSize(500,500);

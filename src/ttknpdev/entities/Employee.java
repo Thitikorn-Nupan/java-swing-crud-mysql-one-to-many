@@ -20,6 +20,9 @@ public class Employee {
         this.salary = salary;
     }
 
+    public Employee() {
+    }
+
     public void setAll(String eid, String firstname, String lastname, String position, Boolean active, Float salary) {
         this.eid = eid;
         this.firstname = firstname;
@@ -27,9 +30,6 @@ public class Employee {
         this.position = position;
         this.active = active;
         this.salary = salary;
-    }
-
-    public Employee() {
     }
 
     public String getEid() {

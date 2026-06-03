@@ -1,10 +1,10 @@
 package ttknpdev.ui.forms;
 
 import ttknpdev.entities.Employee;
-import ttknpdev.log.MyLog;
+import ttknpdev.log.CustomLog4j;
 import ttknpdev.repositories.EmployeeRepository;
 import ttknpdev.services.EmployeeService;
-import ttknpdev.ui.frame.MyFrame;
+import ttknpdev.ui.frame.CustomFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,14 +30,14 @@ public class EmployeeFormCreate implements ActionListener {
     private JPanel panelEmployeeCreate;
 
     // my attributes on below
-    private MyFrame frame;
-    private MyLog myLog;
+    private CustomFrame frame;
+    private CustomLog4j customLog4j;
     private AddressFormCreate addressFormCreate;
     private EmployeeRepository<Employee> employeeRepository;
 
     public EmployeeFormCreate() {
-        myLog = new MyLog(EmployeeFormCreate.class);
-        frame = new MyFrame("Employee Form");
+        customLog4j = new CustomLog4j(EmployeeFormCreate.class);
+        frame = new CustomFrame("Employee Form");
         frame.setVisible(true);
         frame.setSize(695, 565);
         frame.setContentPane(panelEmployeeCreate);
@@ -95,7 +95,7 @@ public class EmployeeFormCreate implements ActionListener {
                 addressFormCreate = new AddressFormCreate(employee.getEid());
                 addressFormCreate.display();
                 // remember when line 96 is working  it will go to line 110
-                myLog.log4j.info("created employee then create address");
+                customLog4j.log4j.info("created employee then create address");
 
             } else if (resultEmployee == 0) { // can't create employee
 

@@ -1,10 +1,10 @@
 package ttknpdev.ui.forms;
 
 import ttknpdev.entities.Employee;
-import ttknpdev.log.MyLog;
+import ttknpdev.log.CustomLog4j;
 import ttknpdev.repositories.EmployeeRepository;
 import ttknpdev.services.EmployeeService;
-import ttknpdev.ui.frame.MyFrame;
+import ttknpdev.ui.frame.CustomFrame;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -118,14 +118,14 @@ public class EmployeeFormEdit implements ActionListener {
     private JTextField textFieldFirstname;
     private JButton buttonSearch;
     // my attributes
-    private MyFrame frame;
+    private CustomFrame frame;
     private EmployeeModel employeeModel;
-    private MyLog myLog;
+    private CustomLog4j customLog4j;
     private  EmployeeRepository<Employee> employeeRepository;
 
     public EmployeeFormEdit() {
-        myLog = new MyLog(EmployeeFormEdit.class);
-        frame = new MyFrame("Employee Form Edit");
+        customLog4j = new CustomLog4j(EmployeeFormEdit.class);
+        frame = new CustomFrame("Employee Form Edit");
         frame.setVisible(true);
         frame.setSize(695, 735);
         frame.setContentPane(panelEmployeeEdit);
@@ -263,7 +263,7 @@ public class EmployeeFormEdit implements ActionListener {
                 newImg = image.getScaledInstance(60, 60, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
                 icon = new ImageIcon(newImg);
                 JOptionPane.showMessageDialog(frame, "failed", "message", JOptionPane.INFORMATION_MESSAGE, icon);
-                myLog.log4j.info("failed to update");
+                customLog4j.log4j.info("failed to update");
 
             }
 

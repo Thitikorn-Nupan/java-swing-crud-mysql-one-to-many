@@ -1,10 +1,10 @@
 package ttknpdev.services;
 
-import ttknpdev.configuration.Connect;
+import ttknpdev.configuration.DbConfig;
 import ttknpdev.entities.Employee;
-import ttknpdev.log.MyLog;
+import ttknpdev.log.CustomLog4j;
 import ttknpdev.repositories.EmployeeRepository;
-import ttknpdev.services.command.CommandSQL;
+import ttknpdev.services.command.SQLCommand;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,29 +15,25 @@ import java.util.List;
 
 public class EmployeeService implements EmployeeRepository<Employee> {
 
-    private Connect connect;
+    private DbConfig dbConfig;
     private Connection connection;
     private PreparedStatement preparedStatement;
-    private MyLog myLog;
+    private CustomLog4j customLog4j;
 
     public EmployeeService() {
-        connect = new Connect(); // initial connect database
-        connection = connect.getConnect();
-        myLog = new MyLog(EmployeeService.class);
+        dbConfig = new DbConfig(); // initial connect database
+        connection = dbConfig.getConnect();
+        customLog4j = new CustomLog4j(EmployeeService.class);
     }
 
     @Override
     public List<Employee> reads() {
-
         ResultSet resultSet;
         List<Employee> employeeList;
-
         try {
-
             employeeList = new ArrayList<>();
-            preparedStatement = connection.prepareStatement(CommandSQL.EMPLOYEE_READS);
+            preparedStatement = connection.prepareStatement(SQLCommand.EMPLOYEE_READS);
             resultSet = preparedStatement.executeQuery();
-
             while (resultSet.next()) {
                 employeeList.add(new Employee
                         (
@@ -50,14 +46,10 @@ public class EmployeeService implements EmployeeRepository<Employee> {
                         )
                 );
             }
-
             return employeeList;
-
         } catch (SQLException sqlException) {
-
-            myLog.log4j.warn("SQLException class has error : " + sqlException.getMessage());
+            customLog4j.log4j.warn("SQLException class has error : " + sqlException.getMessage());
             throw new RuntimeException("SQLException class has error : " + sqlException.getMessage());
-            // return null;
         }
 
     }
@@ -67,8 +59,7 @@ public class EmployeeService implements EmployeeRepository<Employee> {
         ResultSet resultSet;
         Employee employee = null;
         try {
-            preparedStatement = connection.prepareStatement(CommandSQL.EMPLOYEE_READ);
-            // (order , value)
+            preparedStatement = connection.prepareStatement(SQLCommand.EMPLOYEE_READ);
             preparedStatement.setString(1, eid);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -79,52 +70,39 @@ public class EmployeeService implements EmployeeRepository<Employee> {
                         resultSet.getBoolean("active"),
                         resultSet.getFloat("salary"));
             }
-            myLog.log4j.info(employee);
+            customLog4j.log4j.info(employee);
             return employee;
         } catch (SQLException sqle) {
-            myLog.log4j.warn("SQLException class has error : " + sqle.getMessage());
-            // throw new RuntimeException("SQLException class has error : " + sqle.getMessage());
+            customLog4j.log4j.warn("SQLException class has error : " + sqle.getMessage());
             return null;
         }
     }
 
     @Override
     public Integer delete(String eid) {
-
         try {
-
-            preparedStatement = connection.prepareStatement(CommandSQL.EMPLOYEE_DELETE_WHERE);
+            preparedStatement = connection.prepareStatement(SQLCommand.EMPLOYEE_DELETE_WHERE);
             preparedStatement.setString(1, eid);
             return preparedStatement.executeUpdate();
-
         } catch (SQLException sqlException) {
-
-            myLog.log4j.warn("SQLException class has error : " + sqlException.getMessage());
-            // throw new RuntimeException("SQLException class has error : " + sqlException.getMessage());
+            customLog4j.log4j.warn("SQLException class has error : " + sqlException.getMessage());
             return 0;
         }
-
     }
 
     @Override
     public Integer create(Employee obj) {
-
         try {
-
-            preparedStatement = connection.prepareStatement(CommandSQL.EMPLOYEE_CREATE);
+            preparedStatement = connection.prepareStatement(SQLCommand.EMPLOYEE_CREATE);
             preparedStatement.setString(1, obj.getEid());
             preparedStatement.setString(2, obj.getFirstname());
             preparedStatement.setString(3, obj.getLastname());
             preparedStatement.setString(4, obj.getPosition());
             preparedStatement.setBoolean(5, obj.getActive());
             preparedStatement.setFloat(6, obj.getSalary());
-
             return preparedStatement.executeUpdate();
-
         } catch (SQLException sqlException) {
-
-            myLog.log4j.warn("SQLException class has error : " + sqlException.getMessage());
-            // throw new RuntimeException("SQLException class has error : " + sqlException.getMessage());
+            customLog4j.log4j.warn("SQLException class has error : " + sqlException.getMessage());
             return 0;
         }
     }
@@ -132,27 +110,22 @@ public class EmployeeService implements EmployeeRepository<Employee> {
     @Override
     public Integer update(Employee obj) {
         try {
-
-            preparedStatement = connection.prepareStatement(CommandSQL.EMPLOYEE_UPDATE);
+            preparedStatement = connection.prepareStatement(SQLCommand.EMPLOYEE_UPDATE);
             preparedStatement.setString(1, obj.getFirstname());
             preparedStatement.setString(2, obj.getLastname());
             preparedStatement.setString(3, obj.getPosition());
             preparedStatement.setBoolean(4, obj.getActive());
             preparedStatement.setFloat(5, obj.getSalary());
             preparedStatement.setString(6, obj.getEid());
-
             return preparedStatement.executeUpdate();
-
         } catch (SQLException sqlException) {
-
-            myLog.log4j.warn("SQLException class has error : " + sqlException.getMessage());
-            // throw new RuntimeException("SQLException class has error : " + sqlException.getMessage());
+            customLog4j.log4j.warn("SQLException class has error : " + sqlException.getMessage());
             return 0;
         }
     }
 
     @Override
     public void closeConnect() {
-        connect.closeConnect();
+        dbConfig.closeConnect();
     }
 }
